@@ -22,14 +22,19 @@
     });
 
     function addImage() {
+        let htmlContent = '';
         const data = JSON.parse(this.responseText);
-        const firstImage = data.results[0];
 
-        responseContainer.insertAdjacentHTML('afterbegin', `<figure>
-                <img src="${firstImage.urls.small}" alt="${searchedForText}">
-                <figcaption>${searchedForText} by ${firstImage.user.name}</figcaption>
-            </figure>`
-        );
+        if (data && data.results && data.results[0]) {
+            const firstImage = data.results[0];
+            htmlContent = `<figure>
+                    <img src="${firstImage.urls.small}" alt="${searchedForText}">
+                    <figcaption>${searchedForText} by ${firstImage.user.name}</figcaption>
+                </figure>`;
+        } else {
+            htmlContent = '<div class="error-no-image">No images available</div>';
+        }
+        responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
     }
 
     function addArticles() {
