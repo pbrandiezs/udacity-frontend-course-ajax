@@ -15,10 +15,13 @@
         imgRequest.setRequestHeader('Authorization', 'Client-ID 462d22cae6dd1d4877bb082c9e9c6502893a9bb7305d4bf8f681d13b56d4abc3');
         imgRequest.send();
 
-        const articleRequest = new XMLHttpRequest();
-        articleRequest.onload = addArticles;
-        articleRequest.open('GET', `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e6a9801dab184d89a4d77b94ff44048c`);
-        articleRequest.send();
+        // const articleRequest = new XMLHttpRequest();
+        // articleRequest.onload = addArticles;
+        // articleRequest.open('GET', `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e6a9801dab184d89a4d77b94ff44048c`);
+        //articleRequest.send();
+        $.ajax({
+            url: `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e6a9801dab184d89a4d77b94ff44048c`
+        }).done(addArticles);
     });
 
     function addImage() {
@@ -37,8 +40,8 @@
         responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
     }
 
-    function addArticles() {
-        const data = JSON.parse(this.responseText);
+    function addArticles(data) {
+        // const data = JSON.parse(this.responseText);
         const articlesInHTML = data.response.docs.map(article => `<li>
                 <h2><a href="${article.web_url}">${article.headline.main}</a><h2>
                 <p>${article.snippet}</p>
