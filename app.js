@@ -14,19 +14,19 @@
                 Authorization: 'Client-ID 462d22cae6dd1d4877bb082c9e9c6502893a9bb7305d4bf8f681d13b56d4abc3'
             }
         })
-        .then(response => {debugger; response.json()})
+        .then(response => response.json())
         .then(addImage)
         .catch(e => requestError(e, 'image'));
 
         fetch(`http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e6a9801dab184d89a4d77b94ff44048c`)
         .then(response => response.json())
-        // .then(addArticles)
-        .then(response => Promise.reject(new Error('bad articles')))
+        .then(addArticles)
+        //.then(response => Promise.reject(new Error('bad articles')))
         .catch(e => requestError(e, 'articles'));
     });
 
 function addImage(data) {
-    debugger;
+    //debugger;
     let htmlContent = '';
     const firstImage = data.results[0];
 
@@ -45,6 +45,7 @@ function addImage(data) {
     function addArticles(data) {
         let htmlContent = '';
         const articles = data.response.docs;
+        //console.log(data);
 
         if (articles) {
             htmlContent = '<ul>' + articles.map(article => `<li>
